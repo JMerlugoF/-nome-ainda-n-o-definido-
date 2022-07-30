@@ -1,10 +1,9 @@
 package lde;
 
 import entities.Veiculo;
-import lse.Noh;
 
 public class LDEMap implements ILDE {
-    private Veiculo valor;
+    private Veiculo valor; //  o valor?
     private NohLDE inicio;
     private NohLDE fim;
     private int size;
@@ -12,6 +11,24 @@ public class LDEMap implements ILDE {
     public LDEMap() {
         this.inicio = null;
         this.fim = null;
+    }
+
+    public void bubbleSort() {
+        NohLDE corrente, indice;
+        Veiculo temp;
+        if (inicio == null) {
+            return;
+        } else {
+            for (corrente = inicio; corrente.getProx() != null; corrente = corrente.getProx()) {
+                for (indice = corrente.getProx(); indice != null; indice = indice.getProx()) {
+                    if (corrente.getValor().getChassi() > indice.getValor().getChassi()) {
+                        temp = corrente.getValor();
+                        corrente.setValor(indice.getValor());
+                        indice.setValor(temp);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -24,7 +41,6 @@ public class LDEMap implements ILDE {
             novo.setProx(inicio);
             inicio.setAnt(novo);
             inicio = novo;
-            inicio.setAnt(novo);
         }
         size++;
     }
@@ -32,8 +48,9 @@ public class LDEMap implements ILDE {
     @Override
     public void insereFim(Veiculo valor) {
         NohLDE novo = new NohLDE(valor);
-        if (inicio == null) {
+        if (fim == null) {
             inicio = novo;
+            fim = novo;
         } else {
             novo.setAnt(fim);
             fim.setProx(novo);
@@ -49,19 +66,26 @@ public class LDEMap implements ILDE {
 
     @Override
     public boolean remove(Veiculo valor) {
-        NohLDE ant = null, p;
-        p = inicio;
-        while (p != null && p.getValor() != valor) {
-            ant = p;
+        NohLDE p = inicio;
+        while (p != null && p.getValor() != valor) { //busca
             p = p.getProx();
         }
-        if (p == null) {
+        if (p == null) { // não achou, então não faz nada e retorna false
             return false;
         }
-        if (ant == null) {
+        if (p == inicio) { // valor estah no inicio
             inicio = p.getProx();
-        } else {
-            ant.setProx(p.getProx());
+            if (inicio != null) {
+                inicio.setAnt(null);
+            } else {
+                fim = null;
+            }
+        } else if (p.getProx() == null) { // valor estah no fim
+            p.getAnt().setProx(null);
+            fim = p.getAnt();
+        } else { // valor estah no meio
+            p.getAnt().setProx(p.getProx());
+            p.getProx().setAnt(p.getAnt());
         }
         size--;
         return true;
@@ -81,6 +105,9 @@ public class LDEMap implements ILDE {
         }
         return stringBuilder.toString();
     }
+
+    //  Getters e Setters
+
     public NohLDE getInicio() {
         return inicio;
     }

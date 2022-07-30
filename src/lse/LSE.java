@@ -18,7 +18,6 @@ public class LSE implements ILista {
         } else {
             novo.setProximo(inicio);
             inicio = novo;
-
         }
         size++;
     }

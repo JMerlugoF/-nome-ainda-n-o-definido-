@@ -3,16 +3,16 @@ package lde;
 import entities.Veiculo;
 
 public interface ILDE {
-        public void insereInicio(Veiculo valor);
+    public void insereInicio(Veiculo valor);
 
-        public void insereFim(Veiculo valor);
+    public void insereFim(Veiculo valor);
 
-        public boolean estahVazia();
+    public boolean estahVazia();
 
-        public boolean remove(Veiculo valor);
+    public boolean remove(Veiculo valor);
 
-        public int size();
+    public int size();
 
-        public String imprime();
+    public String imprime();
 }
 

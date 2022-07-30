@@ -35,14 +35,12 @@ public class VetorMap implements IVetor {
             this.vetor[this.size] = v;
             this.size++;
         } else {
-            System.out.print("Vetor cheio!");
+            throw new ArrayIndexOutOfBoundsException("Vetor cheio!");
         }
     }
 
     public boolean cheio() {
-        if (size == this.vetor.length)
-            return true;
-        return false;
+        return size == this.vetor.length;
     }
 
     public void garanteEspaco() {
@@ -75,7 +73,7 @@ public class VetorMap implements IVetor {
     }
 
     public String print() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < vetor.length; i++) {
             if (vetor[i] != null) {
                 builder.append(vetor[i]).append("\n ");
