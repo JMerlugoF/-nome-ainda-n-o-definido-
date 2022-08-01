@@ -3,7 +3,6 @@ package lde;
 import entities.Veiculo;
 
 public class LDEMap implements ILDE {
-    private Veiculo valor; //  o valor?
     private NohLDE inicio;
     private NohLDE fim;
     private int size;

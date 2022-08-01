@@ -68,7 +68,7 @@ public class LSE implements ILista {
     }
 
     public String imprime() {
-        final StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         if (!estahVazia()) {
             for (Noh i = inicio; i != null; i = i.getProximo()) {
                 stringBuilder.append(i.getValor()).append("\n");

@@ -1,6 +1,8 @@
 package mapa;
 import entities.Veiculo;
 
+import java.io.PrintStream;
+
 public class MapaHashVetor {
     private Veiculo[] vetor;
     private int size;
