@@ -2,32 +2,9 @@ package vetor;
 
 import entities.Veiculo;
 
-public class VetorMap implements IVetor {
+public class VetorMap  {
     private Veiculo[] vetor = new Veiculo[100000];
     private int size = 0;
-
-    public static Veiculo[] selectionSort(Veiculo[] v) {
-        for(int i = 0; i <v.length-1; i++)
-        {
-            int minIndex = v[i].getChassi();
-            int pos = i;
-
-            for(int j = i + 1; j < v.length-2; j++)
-            {
-
-                if(v[j].getChassi() > v[minIndex].getChassi()) {
-                    minIndex = v[j].getChassi();
-                    pos = j;
-                }
-            }
-            int temp = v[pos].getChassi();
-            v[pos] = v[i];
-            int k = v[i].getChassi();
-            k = temp;
-
-        }
-        return v;
-    }
 
     public void adiciona(Veiculo v) {
         this.garanteEspaco();
@@ -82,6 +59,20 @@ public class VetorMap implements IVetor {
             }
         }
         return builder.toString();
+    }
+
+    public static void sort(Veiculo[] v) {
+
+        for (int i = 0; i < v.length; i++) {
+            int index_menor = i;
+            for (int j = i + 1; j < v.length; j++)
+                if (v[j].getChassi() < v[index_menor].getChassi())
+                    index_menor = j;
+
+            Veiculo aux = v[i];
+            v[i] = v[index_menor];
+            v[index_menor] = aux;
+        }
     }
 }
 

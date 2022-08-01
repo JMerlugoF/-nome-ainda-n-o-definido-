@@ -117,4 +117,17 @@ public class MapaHashVetor {
         }
         return builder.toString();
     }
+    public static void sort(Veiculo[] v) {
+
+        for (int i = 0; i < v.length; i++) {
+            int index_menor = i;
+            for (int j = i + 1; j < v.length; j++)
+                if (v[j].getChassi() < v[index_menor].getChassi())
+                    index_menor = j;
+
+            Veiculo aux = v[i];
+            v[i] = v[index_menor];
+            v[index_menor] = aux;
+        }
+    }
 }

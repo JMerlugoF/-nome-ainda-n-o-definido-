@@ -1,3 +1,4 @@
+/*
 package vetor;
 
 import entities.Veiculo;
@@ -16,7 +17,6 @@ public interface IVetor {
     public void garanteEspaco();
     public String print();
 
-    public static Veiculo[] selectionSort(Veiculo[] v){
-        return v;
-    }
+    public void sort();
 }
+*/
