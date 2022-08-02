@@ -1,10 +1,11 @@
 package arvore;
-
-import org.w3c.dom.Node;
-
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import entities.Veiculo;
 
-public class ABB {
+public class ABB implements Map<Long,Veiculo>{
     private Noh raiz;
 
     public ABB() {
@@ -42,34 +43,6 @@ public class ABB {
         }
     }
 
-    public void recursiveAdd(Veiculo element) {
-        if (isEmpty())
-            this.raiz = new Noh(element);
-        else {
-            recursiveAdd(this.raiz, element);
-        }
-    }
-
-    private void recursiveAdd(Noh node, Veiculo element) {
-        if (element.getChassi() < node.valor.getChassi()) {
-            if (node.esq == null) {
-                Noh newNode = new Noh(element);
-                node.esq = newNode;
-                newNode.pai = node;
-                return;
-            }
-            recursiveAdd(node.esq, element);
-        } else {
-            if (node.dir == null) {
-                Noh newNode = new Noh(element);
-                node.dir = newNode;
-                newNode.pai = node;
-                return;
-            }
-            recursiveAdd(node.dir, element);
-        }
-    }
-
     public void imprimeArvoreOrdenadaRec(){
         Noh node = this.raiz;
         RecImprimeArvoreOrdenada(node);
@@ -85,22 +58,107 @@ public class ABB {
         }
     }
 
-    public boolean buscaRec(Veiculo info){
+    
+    @Override
+    public int size() {
+        return 0;
+    }
+    
+    @Override
+    public boolean containsKey(Object key) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
+    public boolean containsValue(Object value) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
+    public Veiculo get(Object key) {
         Noh node = this.raiz;
-        return buscaRecMethod(info, node);
+        return buscaRecMethod((int)key, node);
     }
 
-    private boolean buscaRecMethod(Veiculo info, Noh node){
-        if (node.valor.getChassi() == info.getChassi()) {
-            return true;
+    private Veiculo buscaRecMethod(int info, Noh node){
+        if (node.valor.getChassi() == info) {
+            return node.valor;
         }
         if (node.dir == null && node.esq == null) {
-            return false;
+            return null;
         }
-        if (info.getChassi() > node.valor.getChassi()) {
+        if (info > node.valor.getChassi()) {
             return buscaRecMethod(info, node.dir);
         } else {
             return buscaRecMethod(info, node.esq);
         }
+    }
+
+    @Override
+    public Veiculo put(Long key, Veiculo element) {
+        if (isEmpty()){
+            this.raiz = new Noh(element);
+            return element;
+        } else {
+            Noh aux = this.raiz;
+            while (aux != null) {
+                if (key < aux.valor.getChassi()) {
+                    if (aux.esq == null) {
+                        Noh newNode = new Noh(element);
+                        aux.esq = newNode;
+                        newNode.pai = aux;
+                        return element;
+                    }
+                    aux = aux.esq;
+                } else {
+                    if (aux.dir == null) {
+                        Noh newNode = new Noh(element);
+                        aux.dir = newNode;
+                        newNode.pai = aux;
+                        return element;
+                    }
+                    aux = aux.dir;
+                }
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public Veiculo remove(Object key) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void putAll(Map<? extends Long, ? extends Veiculo> m) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Set<Long> keySet() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Collection<Veiculo> values() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Set<Entry<Long, Veiculo>> entrySet() {
+        
+        return null;
     }
 }
