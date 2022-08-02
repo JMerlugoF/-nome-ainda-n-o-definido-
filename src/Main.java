@@ -19,22 +19,21 @@ public class Main {
 
 class MainABB {
     public static void main(String[] args) {
-        long count = 100000;
-        Veiculo[] veiculos = new Veiculo[(int) count];
+        Veiculo[] veiculos = new Veiculo[(int) 100000];
         ABB arvore = new ABB();
+        while(arvore.size() < 100000){
+            veiculos[arvore.size()] = new Veiculo();
+            System.out.println(veiculos[arvore.size()] + " | " + arvore.size());
+            arvore.put((long)veiculos[arvore.size()].getChassi(), veiculos[arvore.size()]);
+        }
 
         long start = System.currentTimeMillis();
-        for (int i = 0; i<count; i++){
-            veiculos[i] = new Veiculo();
-            arvore.add(veiculos[i]);
-            System.out.println(veiculos[i]+" | "+i);
-        }
+        arvore.imprimeArvoreOrdenadaRec();
         long end = System.currentTimeMillis();
         System.out.println((start-end)/1000);
         //A adição recursiva resultou em 11s
         //A adição iterativa resultou em 10s
-        
-        
+
         //arvore.imprimeArvoreOrdenadaRec();
         
     }

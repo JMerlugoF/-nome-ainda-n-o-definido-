@@ -11,4 +11,17 @@ public class Noh {
     Noh(Veiculo v) {
         this.valor = v;
     }
+
+    public boolean ehFolha() {
+        return this.esq == null && this.dir == null;
+    }
+
+    public boolean filhosSoNaDireita() {
+        return (this.esq == null && this.dir != null);
+    }
+    
+    public boolean filhosSoNaEsquerda() {
+        return (this.esq != null && this.dir == null);
+    }
+
 }

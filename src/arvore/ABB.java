@@ -2,45 +2,18 @@ package arvore;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import entities.Veiculo;
 
-public class ABB implements Map<Long,Veiculo>{
+public class ABB implements Map<Long,Object>{
     private Noh raiz;
+    private int nElements;
 
     public ABB() {
-        
+        this.nElements = 0;
     }
 
     public boolean isEmpty() {
         return this.raiz == null;
-    }
-
-    public void add(Veiculo element) {
-        if (isEmpty())
-            this.raiz = new Noh(element);
-        else {
-            Noh aux = this.raiz;
-            while (aux != null) {
-                if (element.getChassi() < aux.valor.getChassi()) {
-                    if (aux.esq == null) {
-                        Noh newNode = new Noh(element);
-                        aux.esq = newNode;
-                        newNode.pai = aux;
-                        return;
-                    }
-                    aux = aux.esq;
-                } else {
-                    if (aux.dir == null) {
-                        Noh newNode = new Noh(element);
-                        aux.dir = newNode;
-                        newNode.pai = aux;
-                        return;
-                    }
-                    aux = aux.dir;
-                }
-            }
-        }
     }
 
     public void imprimeArvoreOrdenadaRec(){
@@ -48,7 +21,7 @@ public class ABB implements Map<Long,Veiculo>{
         RecImprimeArvoreOrdenada(node);
     }
 
-    public void RecImprimeArvoreOrdenada(Noh node){
+    private void RecImprimeArvoreOrdenada(Noh node){
         if(node != null){
             if(node.esq != null)
                 RecImprimeArvoreOrdenada(node.esq);
@@ -61,33 +34,31 @@ public class ABB implements Map<Long,Veiculo>{
     
     @Override
     public int size() {
-        return 0;
+        return this.nElements;
     }
     
     @Override
     public boolean containsKey(Object key) {
-        // TODO Auto-generated method stub
         return false;
     }
     
     @Override
     public boolean containsValue(Object value) {
-        // TODO Auto-generated method stub
         return false;
     }
     
     @Override
-    public Veiculo get(Object key) {
+    public Noh get(Object key) throws NullPointerException {
         Noh node = this.raiz;
-        return buscaRecMethod((int)key, node);
+        return buscaRecMethod((long)key, node);
     }
 
-    private Veiculo buscaRecMethod(int info, Noh node){
-        if (node.valor.getChassi() == info) {
-            return node.valor;
-        }
-        if (node.dir == null && node.esq == null) {
+    private Noh buscaRecMethod(Long info, Noh node){
+        if (node == null) {
             return null;
+        }
+        if (node.valor.getChassi() == info) {
+            return node;
         }
         if (info > node.valor.getChassi()) {
             return buscaRecMethod(info, node.dir);
@@ -97,27 +68,33 @@ public class ABB implements Map<Long,Veiculo>{
     }
 
     @Override
-    public Veiculo put(Long key, Veiculo element) {
+    public Object put(Long i, Object element) {
+        Veiculo info = (Veiculo)element;
+        if(get(i) != null)
+            return null;
         if (isEmpty()){
-            this.raiz = new Noh(element);
-            return element;
+            this.raiz = new Noh(info);
+            nElements++;
+            return info;
         } else {
             Noh aux = this.raiz;
             while (aux != null) {
-                if (key < aux.valor.getChassi()) {
+                if (i < aux.valor.getChassi()) {
                     if (aux.esq == null) {
-                        Noh newNode = new Noh(element);
+                        Noh newNode = new Noh(info);
                         aux.esq = newNode;
                         newNode.pai = aux;
-                        return element;
+                        nElements++;
+                        return info;
                     }
                     aux = aux.esq;
                 } else {
                     if (aux.dir == null) {
-                        Noh newNode = new Noh(element);
+                        Noh newNode = new Noh(info);
                         aux.dir = newNode;
                         newNode.pai = aux;
-                        return element;
+                        nElements++;
+                        return info;
                     }
                     aux = aux.dir;
                 }
@@ -127,37 +104,95 @@ public class ABB implements Map<Long,Veiculo>{
     }
 
     @Override
-    public Veiculo remove(Object key) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object remove(Object key) {
+        Noh node = this.raiz;
+        return removeElement((Long)key, buscaRecMethod((long)key, node));
+    }
+
+    private Object removeElement(Long key, Noh element){
+        if (element.ehFolha()) {
+            if (element == this.raiz){
+                this.raiz = null;
+                nElements--;
+                return element;
+            }else {
+                if (key < element.pai.valor.getChassi())
+                    element.pai.esq = null;
+                else
+                    element.pai.dir = null;
+                nElements--;
+                return element;
+            }
+        } else if (element.filhosSoNaEsquerda()) {
+            if (element == this.raiz)  {
+                this.raiz = element.esq;
+                this.raiz.pai = null;
+                nElements--;
+                return element;
+            } else {
+                element.pai.esq = element.esq;
+                nElements--;
+                return element;
+            }
+        } else if (element.filhosSoNaDireita()) {
+            if (element == this.raiz) {
+                this.raiz = element.dir;
+                this.raiz.pai = null;
+                nElements--;
+                return element;
+            } else {
+                element.pai.dir = element.dir;
+                nElements--;
+                return element;
+            }
+        } else {
+            if(element != null){
+                Noh sucessor = sucessor(element);
+                element.valor = sucessor.valor;
+                return removeElement((long)sucessor.valor.getChassi(), sucessor);
+            }
+        }
+        return element;
+    }
+
+    public Noh sucessor(Noh element) {
+        if (element.dir != null)
+            return maxEsq(element.dir);
+        else {
+            Noh aux = element.pai;
+
+            while (aux != null && aux.valor.getChassi() < element.valor.getChassi())
+                aux = aux.pai;
+
+            return aux;
+        }
+    }
+
+    private Noh maxEsq(Noh noh) {
+        if (noh.esq == null) return noh;
+        else return maxEsq(noh.esq);
     }
 
     @Override
-    public void putAll(Map<? extends Long, ? extends Veiculo> m) {
-        // TODO Auto-generated method stub
-        
+    public void putAll(Map<? extends Long, ? extends Object> m) {
     }
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public Set<Long> keySet() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Collection<Veiculo> values() {
-        // TODO Auto-generated method stub
+    public Collection<Object> values() {
         return null;
     }
 
     @Override
-    public Set<Entry<Long, Veiculo>> entrySet() {
+    public Set<Entry<Long, Object>> entrySet() {
         
         return null;
     }
