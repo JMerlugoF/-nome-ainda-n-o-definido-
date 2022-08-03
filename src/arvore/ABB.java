@@ -25,7 +25,7 @@ public class ABB implements Map<Long,Object>{
         if(node != null){
             if(node.esq != null)
                 RecImprimeArvoreOrdenada(node.esq);
-                System.out.println(node.valor.toString());
+            System.out.println(node.valor.toString());
             if(node.dir != null)
                 RecImprimeArvoreOrdenada(node.dir);
         }
@@ -130,7 +130,11 @@ public class ABB implements Map<Long,Object>{
                 nElements--;
                 return element;
             } else {
-                element.pai.esq = element.esq;
+                element.esq.pai = element.pai;
+                if (element.valor.getChassi() < element.pai.valor.getChassi())
+                    element.pai.esq = element.esq;
+                else
+                    element.pai.dir = element.esq;
                 nElements--;
                 return element;
             }
@@ -141,7 +145,11 @@ public class ABB implements Map<Long,Object>{
                 nElements--;
                 return element;
             } else {
-                element.pai.dir = element.dir;
+                element.dir.pai = element.pai;
+                if (element.valor.getChassi() < element.pai.valor.getChassi())
+                    element.pai.esq = element.dir;
+                else
+                    element.pai.dir = element.dir;
                 nElements--;
                 return element;
             }

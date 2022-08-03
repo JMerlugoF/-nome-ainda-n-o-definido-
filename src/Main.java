@@ -1,4 +1,8 @@
+import java.time.Instant;
+import java.util.Map;
+
 import arvore.ABB;
+import arvore.RequisitosA;
 import entities.Veiculo;
 import mapa.MapaHashLSE;
 
@@ -21,20 +25,9 @@ class MainABB {
     public static void main(String[] args) {
         Veiculo[] veiculos = new Veiculo[(int) 100000];
         ABB arvore = new ABB();
-        while(arvore.size() < 100000){
-            veiculos[arvore.size()] = new Veiculo();
-            System.out.println(veiculos[arvore.size()] + " | " + arvore.size());
-            arvore.put((long)veiculos[arvore.size()].getChassi(), veiculos[arvore.size()]);
-        }
-
-        long start = System.currentTimeMillis();
-        arvore.imprimeArvoreOrdenadaRec();
-        long end = System.currentTimeMillis();
-        System.out.println((start-end)/1000);
-        //A adição recursiva resultou em 11s
-        //A adição iterativa resultou em 10s
-
-        //arvore.imprimeArvoreOrdenadaRec();
-        
+        RequisitosA.Adicionar100mil(veiculos, arvore);
+        RequisitosA.RemoverVeiculos(arvore);
+        RequisitosA.ImprimirCrescente(arvore);
+        RequisitosA.CarrosDaFord(arvore);
     }
 }
