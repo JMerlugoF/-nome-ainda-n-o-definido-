@@ -3,7 +3,7 @@ package lde;
 import entities.Veiculo;
 
 public class LDE implements ILDE {
-    private Veiculo valor;
+
     private NohLDE inicio;
     private NohLDE fim;
     private int size;
@@ -48,19 +48,26 @@ public class LDE implements ILDE {
 
     @Override
     public boolean remove(Veiculo valor) {
-        NohLDE ant = null, p;
-        p = inicio;
+        NohLDE p = inicio;
         while (p != null && p.getValor() != valor) {
-            ant = p;
             p = p.getProx();
         }
         if (p == null) {
             return false;
         }
-        if (ant == null) {
+        if (p == inicio) {
             inicio = p.getProx();
-        } else {
-            ant.setProx(p.getProx());
+            if (inicio != null) {
+                inicio.setAnt(null);
+            } else {
+                fim = null;
+            }
+        } else if (p.getProx() == null) {
+            p.getAnt().setProx(null);
+            fim = p.getAnt();
+        } else { // valor estah no meio
+            p.getAnt().setProx(p.getProx());
+            p.getProx().setAnt(p.getAnt());
         }
         size--;
         return true;
