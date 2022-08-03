@@ -1,3 +1,8 @@
+import java.time.Instant;
+import java.util.Map;
+
+import arvore.ABB;
+import arvore.RequisitosA;
 import entities.Veiculo;
 import mapa.HashMapVetor;
 import mapa.HashMapLDE;
@@ -70,7 +75,6 @@ public class Main {
         System.out.println("Verificação do número de veículos da marca Ford = "+(tempoF6-tempoI6));
         System.out.println("Apresentação dos veículos = "+(tempoF7-tempoI7));
         System.out.println("Remoção dos veículos com Chassi igual ou inferior à 202050000 = "+(tempoF8-tempoI8));
-
     }
 }
 
