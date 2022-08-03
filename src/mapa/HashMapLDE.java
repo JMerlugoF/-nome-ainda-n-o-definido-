@@ -1,20 +1,18 @@
 package mapa;
-
 import entities.Veiculo;
-import lse.LSE;
-import lse.Noh;
+import lde.LDE;
+import lde.NohLDE;
 
-
-public class MapaHashLSE {
-    private LSE[] tabela;
+public class HashMapLDE {
+    private LDE[] tabela;
     private final int CAPACIDADE_DEFAULT = 20;
 
-    public MapaHashLSE() {
-        this.tabela = new LSE[CAPACIDADE_DEFAULT];
+    public HashMapLDE() {
+        this.tabela = new LDE[CAPACIDADE_DEFAULT];
     }
 
-    public MapaHashLSE(long capacidade) {
-        this.tabela = new LSE[(int) capacidade];
+    public HashMapLDE(long capacidade) {
+        this.tabela = new LDE[(int) capacidade];
     }
 
     private int hash(int chave) {
@@ -30,15 +28,15 @@ public class MapaHashLSE {
 
     public void put(int chave, Veiculo valor) {
         int hash = hash(chave);
-        LSE veiculos = this.tabela[hash];
+        LDE veiculos = this.tabela[hash];
 
         if (veiculos == null) {
-            veiculos = new LSE();
+            veiculos = new LDE();
             veiculos.insereInicio(valor);
             this.tabela[hash] = veiculos;
 
         } else {
-            for (Noh n = veiculos.getInicio(); n != null; n = n.getProximo()) {
+            for (NohLDE n = veiculos.getInicio(); n != null; n = n.getProx()) {
                 if (n.getValor().getChassi() == chave) {
                     n.setValor(valor);
                     return;
@@ -50,12 +48,12 @@ public class MapaHashLSE {
 
     public Veiculo get(int chave) {
         int hash = hash(chave);
-        LSE veiculos = this.tabela[hash];
+        LDE veiculos = this.tabela[hash];
 
         if (veiculos == null || veiculos.estahVazia())
             return null;
 
-        for (Noh n = veiculos.getInicio(); n != null; n = n.getProximo()) {
+        for (NohLDE n = veiculos.getInicio(); n != null; n = n.getProx()) {
             if (n.getValor().getChassi() == chave)
                 return n.getValor();
         }
@@ -64,10 +62,10 @@ public class MapaHashLSE {
 
     public Veiculo remove(int chave) {
         int hash = hash(chave);
-        LSE veiculos = this.tabela[hash];
+        LDE veiculos = this.tabela[hash];
 
         while (!veiculos.estahVazia()) {
-            for (Noh n = veiculos.getInicio(); n != null; n = n.getProximo()) {
+            for (NohLDE n = veiculos.getInicio(); n != null; n = n.getProx()) {
                 if (n.getValor().getChassi() == chave) {
                     n.setValor(null);
                     return n.getValor();
@@ -77,13 +75,34 @@ public class MapaHashLSE {
         return null;
     }
 
-    public String print(){
+    public String print() {
         final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i<tabela.length; i++){
-            if (tabela[i] != null){
+        for (int i = 0; i < tabela.length; i++) {
+            if (tabela[i] != null) {
                 sb.append(tabela[i].imprime());
             }
         }
         return sb.toString();
     }
+
+   public void removeMenorIgualLDE(){
+        for (int i = 0; i < tabela.length; i++) {
+            if (tabela[i] != null) {
+                tabela[i].removeMenorIgual();
+            }
+        }
+    }
+
+    public int verificaFordLDE(){
+        int cont=0;
+        for (int i = 0; i < tabela.length; i++) {
+            if (tabela[i] != null) {
+                cont+= tabela[i].verificaFord();
+            }
+        }
+        return cont;
+    }
 }
+
+
+

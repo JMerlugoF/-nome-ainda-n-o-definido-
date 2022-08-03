@@ -1,41 +1,44 @@
-package lse;
+package lde;
 
 import entities.Veiculo;
 
-public class LSE implements ILista {
-    private Noh inicio;
+public class LDE implements ILDE {
+    private Veiculo valor;
+    private NohLDE inicio;
+    private NohLDE fim;
     private int size;
 
-    public LSE() {
+    public LDE() {
         this.inicio = null;
+        this.fim = null;
     }
 
     @Override
     public void insereInicio(Veiculo valor) {
-        Noh novo = new Noh(valor);
+        NohLDE novo = new NohLDE(valor);
         if (inicio == null) {
             inicio = novo;
+            fim = novo;
         } else {
-            novo.setProximo(inicio);
+            novo.setProx(inicio);
+            inicio.setAnt(novo);
             inicio = novo;
-
+            inicio.setAnt(novo);
         }
         size++;
     }
 
     @Override
     public void insereFim(Veiculo valor) {
-        Noh novo = new Noh(valor);
+        NohLDE novo = new NohLDE(valor);
         if (inicio == null) {
             inicio = novo;
         } else {
-            Noh ultimo = null;
-            for (Noh i = inicio; i != null; i = i.getProximo()) {
-                ultimo = i;
-            }
-            ultimo.setProximo(novo);
-            size++;
+            novo.setAnt(fim);
+            fim.setProx(novo);
+            fim = novo;
         }
+        size++;
     }
 
     @Override
@@ -45,19 +48,19 @@ public class LSE implements ILista {
 
     @Override
     public boolean remove(Veiculo valor) {
-        Noh ant = null, p;
+        NohLDE ant = null, p;
         p = inicio;
         while (p != null && p.getValor() != valor) {
             ant = p;
-            p = p.getProximo();
+            p = p.getProx();
         }
         if (p == null) {
             return false;
         }
         if (ant == null) {
-            inicio = p.getProximo();
+            inicio = p.getProx();
         } else {
-            ant.setProximo(p.getProximo());
+            ant.setProx(p.getProx());
         }
         size--;
         return true;
@@ -71,20 +74,35 @@ public class LSE implements ILista {
     public String imprime() {
         final StringBuilder stringBuilder = new StringBuilder();
         if (!estahVazia()) {
-            for (Noh i = inicio; i != null; i = i.getProximo()) {
+            for (NohLDE i = inicio; i != null; i = i.getProx()) {
                 stringBuilder.append(i.getValor()).append("\n");
             }
         }
         return stringBuilder.toString();
     }
 
-    // Getters e setters
+    public void removeMenorIgual(){
+        for (NohLDE i = inicio; i != null; i = i.getProx()) {
+            if(i.getValor().getChassi()<=202050000)
+                remove(i.getValor());
+        }
+    }
 
-    public Noh getInicio() {
+    public int verificaFord() {
+        int cont = 0;
+        for (NohLDE i = inicio; i != null;i = i.getProx()) {
+            if(i.getValor().isMarcaFord()) {
+                cont ++;
+            }
+        }
+        return cont;
+    }
+
+    public NohLDE getInicio() {
         return inicio;
     }
 
-    public void setInicio(Noh inicio) {
+    public void setInicio(NohLDE inicio) {
         this.inicio = inicio;
     }
 
