@@ -1,12 +1,9 @@
-import java.time.Instant;
-import java.util.Map;
-
 import arvore.ABB;
 import arvore.RequisitosA;
 import entities.Veiculo;
 import mapa.HashMapVetor;
 import mapa.HashMapLDE;
-import mapa.HashMapArvore;
+
 import java.lang.*;
 
 public class Main {

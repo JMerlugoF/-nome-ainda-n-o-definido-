@@ -3,7 +3,6 @@ package lde;
 import entities.Veiculo;
 
 public class LDE implements ILDE {
-
     private NohLDE inicio;
     private NohLDE fim;
     private int size;
@@ -23,7 +22,6 @@ public class LDE implements ILDE {
             novo.setProx(inicio);
             inicio.setAnt(novo);
             inicio = novo;
-            inicio.setAnt(novo);
         }
         size++;
     }
@@ -31,8 +29,9 @@ public class LDE implements ILDE {
     @Override
     public void insereFim(Veiculo valor) {
         NohLDE novo = new NohLDE(valor);
-        if (inicio == null) {
+        if (fim == null) {
             inicio = novo;
+            fim = novo;
         } else {
             novo.setAnt(fim);
             fim.setProx(novo);
@@ -82,28 +81,48 @@ public class LDE implements ILDE {
         final StringBuilder stringBuilder = new StringBuilder();
         if (!estahVazia()) {
             for (NohLDE i = inicio; i != null; i = i.getProx()) {
-                stringBuilder.append(i.getValor()).append("\n");
+                stringBuilder.append(i.getValor()).append(" | ");
             }
         }
         return stringBuilder.toString();
     }
 
-    public void removeMenorIgual(){
+    public void removeMenorIgual() {
         for (NohLDE i = inicio; i != null; i = i.getProx()) {
-            if(i.getValor().getChassi()<=202050000)
+            if (i.getValor().getChassi() <= 202050000)
                 remove(i.getValor());
         }
     }
 
     public int verificaFord() {
         int cont = 0;
-        for (NohLDE i = inicio; i != null;i = i.getProx()) {
-            if(i.getValor().isMarcaFord()) {
-                cont ++;
+        for (NohLDE i = inicio; i != null; i = i.getProx()) {
+            if (i.getValor().isMarcaFord()) {
+                cont++;
             }
         }
         return cont;
     }
+
+    public void sort() {
+        for (NohLDE i = inicio; i != null; i = i.getProx()) {
+            if (i.getValor() != null) {
+                NohLDE index_menor = i;
+                for (NohLDE j = i.getProx(); j != null; j = j.getProx()) {
+                    if (j.getValor() != null) {
+                        if (j.getValor().getChassi() < index_menor.getValor().getChassi()) {
+                            index_menor = j;
+                        }
+                    }
+                }
+                Veiculo aux = i.getValor();
+                i.setValor(index_menor.getValor());
+                index_menor.setValor(aux);
+            }
+        }
+    }
+
+    // Getters e setters
 
     public NohLDE getInicio() {
         return inicio;

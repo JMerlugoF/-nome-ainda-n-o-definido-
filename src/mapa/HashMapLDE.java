@@ -6,20 +6,23 @@ import lde.NohLDE;
 public class HashMapLDE {
     private LDE[] tabela;
     private final int CAPACIDADE_DEFAULT = 20;
+    private int size;
 
     public HashMapLDE() {
         this.tabela = new LDE[CAPACIDADE_DEFAULT];
+        this.size = 0;
     }
 
     public HashMapLDE(long capacidade) {
         this.tabela = new LDE[(int) capacidade];
+        this.size = 0;
     }
 
     private int hash(int chave) {
         return chave % this.tabela.length;
     }
 
-    private int hashMultiplicacao(Integer chave) {
+    private int hashMultiplicacao(int chave) {
         double a = 0.617648934;
         double hash = chave * a;
         hash = (hash % 1) * this.tabela.length;
@@ -29,7 +32,7 @@ public class HashMapLDE {
     public void put(int chave, Veiculo valor) {
         int hash = hash(chave);
         LDE veiculos = this.tabela[hash];
-
+        this.size++;
         if (veiculos == null) {
             veiculos = new LDE();
             veiculos.insereInicio(valor);
@@ -77,14 +80,26 @@ public class HashMapLDE {
 
     public String print() {
         final StringBuilder sb = new StringBuilder();
+        sort();
         for (int i = 0; i < tabela.length; i++) {
-            if (tabela[i] != null) {
-                sb.append(tabela[i].imprime());
+            if (tabela[i] == null) {
+                sb.append(i).append(" Null").append("\n");
+            }else {
+                sb.append(i).append(" ").append(tabela[i].imprime()).append("\n");
             }
         }
         return sb.toString();
     }
 
+    public void sort() {
+       for (int i = 0; i<tabela.length; i++){
+           if (tabela[i] != null) {
+               tabela[i].sort();
+               break;
+           }
+       }
+    }
+    
    public void removeMenorIgualLDE(){
         for (int i = 0; i < tabela.length; i++) {
             if (tabela[i] != null) {
@@ -94,13 +109,28 @@ public class HashMapLDE {
     }
 
     public int verificaFordLDE(){
-        int cont=0;
+        int cont = 0;
         for (int i = 0; i < tabela.length; i++) {
             if (tabela[i] != null) {
-                cont+= tabela[i].verificaFord();
+                cont += tabela[i].verificaFord();
             }
         }
         return cont;
+    }
+
+
+
+    // Getters
+    public int getSize() {
+        return size;
+    }
+
+    public LDE[] getTabela() {
+        return tabela;
+    }
+
+    public int getCAPACIDADE_DEFAULT() {
+        return CAPACIDADE_DEFAULT;
     }
 }
 
