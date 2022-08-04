@@ -14,15 +14,15 @@ public class Main {
 
         int count = 100000;
         Veiculo[] veiculos = new Veiculo[count];
-        for (int i = 0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             veiculos[i] = new Veiculo();
         }
 
         HashMapVetor mapaV = new HashMapVetor(count);
 
         long tempoI = System.nanoTime();
-        for (int i = 0; i<count; i++){
-                mapaV.put(veiculos[i].getChassi(), veiculos[i]);
+        for (int i = 0; i < count; i++) {
+            mapaV.put(veiculos[i].getChassi(), veiculos[i]);
         }
         long tempoF = System.nanoTime();
 
@@ -38,19 +38,19 @@ public class Main {
         long tempoI4 = System.nanoTime();
         mapaV.removeMenorIgual();
         long tempoF4 = System.nanoTime();
-        //String printMenorIgual = mapa.print();
-        //System.out.println(printMenorIgual);
+        // String printMenorIgual = mapa.print();
+        // System.out.println(printMenorIgual);
 
         System.out.println("Tempo total operações VETOR");
-        System.out.println("Inserção de 100 mil veículos = "+(tempoF-tempoI));
-        System.out.println("Verificação do número de veículos da marca Ford = "+(tempoF2-tempoI2));
-        System.out.println("Apresentação dos veículos = "+(tempoF3-tempoI3));
-        System.out.println("Remoção dos veículos com Chassi igual ou inferior à 202050000 = "+(tempoF4-tempoI4));
+        System.out.println("Inserção de 100 mil veículos = " + (tempoF - tempoI));
+        System.out.println("Verificação do número de veículos da marca Ford = " + (tempoF2 - tempoI2));
+        System.out.println("Apresentação dos veículos = " + (tempoF3 - tempoI3));
+        System.out.println("Remoção dos veículos com Chassi igual ou inferior à 202050000 = " + (tempoF4 - tempoI4));
 
         int count2 = 100000;
         HashMapLDE mapaLDE = new HashMapLDE(count2);
         long tempoI5 = System.nanoTime();
-        for (int i = 0; i<count2; i++){
+        for (int i = 0; i < count2; i++) {
             mapaLDE.put(veiculos[i].getChassi(), veiculos[i]);
         }
         long tempoF5 = System.nanoTime();
@@ -67,15 +67,37 @@ public class Main {
         long tempoI8 = System.nanoTime();
         mapaLDE.removeMenorIgualLDE();
         long tempoF8 = System.nanoTime();
-        //String printMenorIgual = mapaLDE.print();
-        //System.out.println(printMenorIgual);
+        // String printMenorIgual = mapaLDE.print();
+        // System.out.println(printMenorIgual);
 
         System.out.println("Tempo total operações LDE");
-        System.out.println("Inserção de 100 mil veículos = "+(tempoF5-tempoI5));
-        System.out.println("Verificação do número de veículos da marca Ford = "+(tempoF6-tempoI6));
-        System.out.println("Apresentação dos veículos = "+(tempoF7-tempoI7));
-        System.out.println("Remoção dos veículos com Chassi igual ou inferior à 202050000 = "+(tempoF8-tempoI8));
+        System.out.println("Inserção de 100 mil veículos = " + (tempoF5 - tempoI5));
+        System.out.println("Verificação do número de veículos da marca Ford = " + (tempoF6 - tempoI6));
+        System.out.println("Apresentação dos veículos = " + (tempoF7 - tempoI7));
+        System.out.println("Remoção dos veículos com Chassi igual ou inferior à 202050000 = " + (tempoF8 - tempoI8));
+
+        ABB abb = new ABB();
+        long tempoI9 = System.nanoTime();
+        RequisitosA.Adicionar100mil(veiculos, abb);
+        long tempoF9 = System.nanoTime();
+
+        long tempoI10 = System.nanoTime();
+        RequisitosA.CarrosDaFord(abb);
+        long tempoF10 = System.nanoTime();
+
+        long tempoI11 = System.nanoTime();
+        RequisitosA.ImprimirCrescente(abb);
+        long tempoF11 = System.nanoTime();
+
+        long tempoI12 = System.nanoTime();
+        RequisitosA.RemoverVeiculos(abb);
+        long tempoF12 = System.nanoTime();
+
+        System.out.println("Tempo total operações Árvore");
+        System.out.println("Inserção de 100 mil veículos = " + (tempoF9 - tempoI9));
+        System.out.println("Verificação do número de veículos da marca Ford = " + (tempoF10 - tempoI10));
+        System.out.println("Apresentação dos veículos = " + (tempoF11 - tempoI11));
+        System.out.println("Remoção dos veículos com Chassi igual ou inferior à 202050000 = " + (tempoF12 - tempoI12));
+
     }
 }
-
-

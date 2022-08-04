@@ -166,9 +166,9 @@ public class HashMapVetor {
         for (int i = 0; i < vetor.length; i++){
             if (vetor[i] != null) {
                 if (vetor[i].getChassi() <= 202050000) {
+                    remove(vetor[i].getChassi());
                 }
             }
-            remove(vetor[i].getChassi());
         }
     }
 
