@@ -9,10 +9,17 @@ public class HashMapVetor {
     public static final int CAPACIDADE_DEFAULT = 20;
 
     public static final double FATOR_DE_CARGA_DEFAULT = 0.75;
-    public HashMapVetor(int size) {
+
+    public HashMapVetor() {
         this.vetor = new Veiculo[CAPACIDADE_DEFAULT];
         this.size = 0;
     }
+
+    public HashMapVetor(int size) {
+        this.vetor = new Veiculo[size];
+        this.size = 0;
+    }
+
     private int hash(int chave) {
         return chave % this.vetor.length;
     }
@@ -123,7 +130,7 @@ public class HashMapVetor {
     }
 
     public String print() {
-        sort();
+        //sort();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < vetor.length; i++) {
             if (vetor[i] != null) {

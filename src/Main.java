@@ -82,7 +82,7 @@ class MainLDE {
 }
 class MainABB {
     public static void main(String[] args) {
-        int count = 100000;
+        int count = 100;
         Veiculo[] veiculos = new Veiculo[count];
 
         ABB abb = new ABB();

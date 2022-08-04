@@ -1,10 +1,12 @@
 package arvore;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
 import entities.Veiculo;
 
-public class ABB implements Map<Long,Object>{
+public class ABB implements Map<Long, Object> {
     private Noh raiz;
     private int nElements;
 
@@ -16,44 +18,43 @@ public class ABB implements Map<Long,Object>{
         return this.raiz == null;
     }
 
-    public void imprimeArvoreOrdenadaRec(){
+    public void imprimeArvoreOrdenadaRec() {
         Noh node = this.raiz;
         RecImprimeArvoreOrdenada(node);
     }
 
-    private void RecImprimeArvoreOrdenada(Noh node){
-        if(node != null){
-            if(node.esq != null)
+    private void RecImprimeArvoreOrdenada(Noh node) {
+        if (node != null) {
+            if (node.esq != null)
                 RecImprimeArvoreOrdenada(node.esq);
             System.out.println(node.valor.toString());
-            if(node.dir != null)
+            if (node.dir != null)
                 RecImprimeArvoreOrdenada(node.dir);
         }
     }
 
-    
     @Override
     public int size() {
         return this.nElements;
     }
-    
+
     @Override
     public boolean containsKey(Object key) {
         return false;
     }
-    
+
     @Override
     public boolean containsValue(Object value) {
         return false;
     }
-    
+
     @Override
     public Noh get(Object key) throws NullPointerException {
         Noh node = this.raiz;
-        return buscaRecMethod((long)key, node);
+        return buscaRecMethod((long) key, node);
     }
 
-    private Noh buscaRecMethod(Long info, Noh node){
+    private Noh buscaRecMethod(Long info, Noh node) {
         if (node == null) {
             return null;
         }
@@ -69,10 +70,10 @@ public class ABB implements Map<Long,Object>{
 
     @Override
     public Object put(Long i, Object element) {
-        Veiculo info = (Veiculo)element;
-        if(get(i) != null)
+        Veiculo info = (Veiculo) element;
+        if (get(i) != null)
             return null;
-        if (isEmpty()){
+        if (isEmpty()) {
             this.raiz = new Noh(info);
             nElements++;
             return info;
@@ -106,16 +107,16 @@ public class ABB implements Map<Long,Object>{
     @Override
     public Object remove(Object key) {
         Noh node = this.raiz;
-        return removeElement((Long)key, buscaRecMethod((long)key, node));
+        return removeElement((Long) key, buscaRecMethod((long) key, node));
     }
 
-    private Object removeElement(Long key, Noh element){
+    private Object removeElement(Long key, Noh element) {
         if (element.ehFolha()) {
-            if (element == this.raiz){
+            if (element == this.raiz) {
                 this.raiz = null;
                 nElements--;
                 return element;
-            }else {
+            } else {
                 if (key < element.pai.valor.getChassi())
                     element.pai.esq = null;
                 else
@@ -124,7 +125,7 @@ public class ABB implements Map<Long,Object>{
                 return element;
             }
         } else if (element.filhosSoNaEsquerda()) {
-            if (element == this.raiz)  {
+            if (element == this.raiz) {
                 this.raiz = element.esq;
                 this.raiz.pai = null;
                 nElements--;
@@ -154,10 +155,10 @@ public class ABB implements Map<Long,Object>{
                 return element;
             }
         } else {
-            if(element != null){
+            if (element != null) {
                 Noh sucessor = sucessor(element);
                 element.valor = sucessor.valor;
-                return removeElement((long)sucessor.valor.getChassi(), sucessor);
+                return removeElement((long) sucessor.valor.getChassi(), sucessor);
             }
         }
         return element;
@@ -201,7 +202,6 @@ public class ABB implements Map<Long,Object>{
 
     @Override
     public Set<Entry<Long, Object>> entrySet() {
-        
         return null;
     }
 }
